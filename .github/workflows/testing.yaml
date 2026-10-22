@@ -55,6 +55,7 @@ jobs:
             gosec: false
             staticcheck: false
             lint_permit_fail: false
+            test_timeout_minutes: 15
           # go.mod declares Go 1.16 (too old to detect a matrix from),
           # so the leg pins the matrix to Go 1.26.
           - name: 'multicloud-k8s'
@@ -77,6 +78,9 @@ jobs:
             gosec: true
             staticcheck: true
             lint_permit_fail: true
+            # Its tests usually take 2-4 minutes but have reached 11-12,
+            # close to the 15-minute default, on Go 1.25 and 1.26 alike
+            test_timeout_minutes: 30
     permissions:
       contents: read
       pull-requests: read  # repository-metadata-action queries PR data
@@ -93,3 +97,4 @@ jobs:
       gosec: ${{ matrix.gosec }}
       staticcheck: ${{ matrix.staticcheck }}
       lint_permit_fail: ${{ matrix.lint_permit_fail }}
+      test_timeout_minutes: ${{ matrix.test_timeout_minutes }}
